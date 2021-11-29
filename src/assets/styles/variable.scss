@@ -1,0 +1,8 @@
+$color_a: #666;
+$color_theme: rgb(39, 162, 255);
+$color_white: #fff;
+$bg_color: #efeff4;
+$color_title: #222; // 定义混合器
+@mixin shadow {
+  box-shadow: 0 0 5px #ccc;
+}

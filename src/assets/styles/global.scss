@@ -1,0 +1,59 @@
+html > body {
+  max-width: 750px;
+  margin: 0 auto;
+  position: relative;
+  height: 100vh;
+  background: $bg_color;
+}
+
+#app .van-nav-bar {
+  background-color: $color_theme !important;
+  .van-nav-bar__title {
+    color: $color_white;
+  }
+}
+
+.van-card {
+  background: $color_white !important;
+}
+.van-nav-bar__text,
+.van-nav-bar .van-icon {
+  color: $color_white !important;
+}
+
+.van-card__content {
+  justify-content: space-around !important;
+  .van-card__title {
+    font-size: 16px !important;
+  }
+}
+.van-card__footer {
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+}
+
+.van-cell {
+  padding: 15px !important;
+  font-size: 16px !important;
+}
+
+h3,
+p {
+  margin: 0;
+}
+
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; //文本不换行，这样超出一行的部分被截取，显示...
+}
+
+.ellipsis-2 {
+  word-break: break-all;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
