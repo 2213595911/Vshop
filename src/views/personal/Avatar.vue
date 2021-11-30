@@ -11,6 +11,7 @@
 
 <script setup lang="ts">
 import avatar from '@/assets/images/avatar_load.jpg'
+
 const image = avatar
 const login = (): void => {
   console.log('登录')
@@ -28,8 +29,8 @@ const login = (): void => {
     background: linear-gradient(to right, #e66465, #9198e5);
     border-radius: 5px;
     &_img {
-      width: 50px;
-      height: 50px;
+      width: 80px;
+      height: 80px;
       border-radius: 50%;
       overflow: hidden;
       img {
@@ -38,7 +39,7 @@ const login = (): void => {
       }
     }
     .login {
-      font-size: 25px;
+      font-size: 30px;
       margin-left: 10px;
       color: $color_white;
     }

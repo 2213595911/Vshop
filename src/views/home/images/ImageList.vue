@@ -17,7 +17,6 @@ import Item from './Item.vue'
 import { useStore } from 'vuex'
 import { key } from '@/store/index'
 const store = useStore(key)
-store.state.home?.images
 const images = computed(() => store.state.home?.images)!
 </script>
 

@@ -18,7 +18,7 @@
 <script setup lang="ts">
 import { getImgCategory } from '@/api/useHome'
 import { ref, computed, ComputedRef, watch } from 'vue'
-import type { imgCateType, imgListType } from '@/types/useHome'
+import type { imgCateType } from '@/types/useHome'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import { key } from '@/store/index'
@@ -29,11 +29,11 @@ const store = useStore(key)
 const data = await getImgCategory()
 
 const imgCate: ComputedRef<imgCateType[]> = computed(() => {
-  data.message.unshift({
-    title: '全部',
-    id: 1,
-  })
   return data.message
+})
+imgCate.value.unshift({
+  title: '全部',
+  id: 1,
 })
 watch(
   () => route.params.id,
