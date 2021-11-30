@@ -1,16 +1,25 @@
 <template>
   <div class="swiper">
     <van-swipe :autoplay="3000" lazy-render>
-      <van-swipe-item v-for="image in images" :key="image">
-        <img :src="image" />
+      <van-swipe-item v-for="image in banner" :key="image">
+        <a :href="image.url">
+          <img :src="image.img" :alt="image.url"/>
+        </a>
       </van-swipe-item>
     </van-swipe>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-const images = ref(['https://img.yzcdn.cn/vant/apple-1.jpg', 'https://img.yzcdn.cn/vant/apple-2.jpg'])
+import {defineProps, PropType} from "vue";
+import type {bannerType} from "@/types/useHome";
+
+const props = defineProps({
+  banner: {
+    type: Object as PropType<bannerType[]>,
+    default: () => ({})
+  }
+})
 </script>
 
 <style scoped lang="scss">

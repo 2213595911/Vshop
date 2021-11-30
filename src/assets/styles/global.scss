@@ -57,3 +57,30 @@ p {
   -webkit-line-clamp: 2;
   overflow: hidden;
 }
+
+.ellipsis-3 {
+  word-break: break-all;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+.delete {
+  text-decoration: $text-delete;
+}
+.money {
+  font-size: 23px;
+  font-weight: 700;
+  color: $color_red;
+}
+.clear::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+.van-cell__title {
+  span {
+    font-size: 25px !important;
+  }
+}

@@ -15,7 +15,7 @@ const change = (i: number): void => {
       router.push('/news')
       break
     case 1:
-      router.push('/images')
+      router.push('/images/1')
       break
     case 2:
       router.push('/goods')

@@ -24,7 +24,7 @@ const login = (): void => {
   .avatar {
     display: flex;
     align-items: center;
-    padding: 20px 20px;
+    padding: 40px 20px;
     background: linear-gradient(to right, #e66465, #9198e5);
     border-radius: 5px;
     &_img {
@@ -38,6 +38,7 @@ const login = (): void => {
       }
     }
     .login {
+      font-size: 25px;
       margin-left: 10px;
       color: $color_white;
     }

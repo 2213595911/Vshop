@@ -4,7 +4,7 @@ import router from './router'
 import store, { key } from './store'
 import 'normalize.css'
 import '@/assets/styles/global.scss'
-
+import 'lib-flexible'
 import {
   Tabs,
   Cell,
@@ -22,6 +22,10 @@ import {
   Stepper,
   SubmitBar,
   Checkbox,
+  Loading,
+  Lazyload,
+  Empty,
+  Pagination,
 } from 'vant'
 import 'vant/lib/index.css'
 
@@ -45,4 +49,8 @@ app
   .use(SubmitBar)
   .use(Checkbox)
   .use(Cell)
+  .use(Loading)
+  .use(Lazyload)
+  .use(Empty)
+  .use(Pagination)
 app.mount('#app')

@@ -4,7 +4,7 @@
 </template>
 
 <script setup lang="ts">
-import { watch, computed } from 'vue'
+import { computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import { key } from '@/store'
@@ -15,7 +15,7 @@ const title = computed(() => store.state.home?.title)
 const flag = computed(() => store.state.home?.flag!)
 
 const onClickLeft = () => {
-  if (route.meta.level === 1) {
+  if (route.meta.level === 1 || route.meta.level === 2) {
     router.push('/')
     store.commit('home/changeTitle', '首页')
   } else {
