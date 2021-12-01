@@ -12,7 +12,7 @@ const router = useRouter()
 const route = useRoute()
 const store = useStore(key)
 const title = computed(() => store.state.home?.title)
-const flag = computed(() => store.state.home?.flag!)
+const flag = computed(() => store.state.home?.flag)
 
 const onClickLeft = () => {
   if (route.meta.level === 1 || route.meta.level === 2) {

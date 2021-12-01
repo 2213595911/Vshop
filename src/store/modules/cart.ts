@@ -7,7 +7,7 @@ const initial = {
     goodsId: [] as number[],
     addNum: {} as { [key: string]: number },
     goodsDesc: [] as any[],
-    all: true,
+    all: true as boolean,
   },
 }
 

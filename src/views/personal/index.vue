@@ -2,14 +2,41 @@
   <div class="self">
     <!-- 头像 -->
     <avatar-vue></avatar-vue>
-    <van-cell title="我的订单" is-link />
-    <van-cell title="我的地址" is-link />
-    <van-cell title="我的帮助" is-link />
+    <van-cell v-for="(link, index) in links" :key="index" :title="link.title" @click="changeOrder(link)" is-link />
   </div>
 </template>
 
 <script setup lang="ts">
 import AvatarVue from './Avatar.vue'
+import { reactive } from 'vue'
+import type { orderType } from '@/types/usePersonal'
+import { useRouter } from 'vue-router'
+// import { useStore } from 'vuex'
+// import { key } from '@/store'
+// const store = useStore(key)
+const router = useRouter()
+
+const links: orderType[] = reactive([
+  {
+    title: '我的订单',
+    path: '/personal/order',
+  },
+  {
+    title: '我的地址',
+    path: '/personal/address',
+  },
+  {
+    title: '帮助中心',
+    path: '/personal/help',
+  },
+])
+
+const changeOrder = (link: orderType): void => {
+  router.push({
+    path: link.path,
+    query: { title: link.title },
+  })
+}
 </script>
 
 <style scoped></style>

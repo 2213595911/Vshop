@@ -1,13 +1,6 @@
 <template>
   <suspense>
-    <template #default>
-      <router-view></router-view>
-    </template>
-    <template #fallback>
-      <div class="loading">
-        <van-loading color="#1989fa" vertical size="70px">加载中...</van-loading>
-      </div>
-    </template>
+    <router-view></router-view>
   </suspense>
 </template>
 

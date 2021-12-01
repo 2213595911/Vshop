@@ -8,13 +8,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, Ref, computed } from 'vue'
-import { useStore } from 'vuex'
-import { key } from '@/store'
+import { ref } from 'vue'
+import { count } from '@/utils/useCart'
 
-const store = useStore(key)
-const active: Ref<number> = ref(0)
-const count = computed(() => store.state.cart?.cart.goodsDesc.reduce((p, c) => p + c.cou, 0))
+const active = ref(0)
 </script>
 
 <style scoped></style>

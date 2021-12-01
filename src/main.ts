@@ -30,6 +30,8 @@ import {
   Form,
   Field,
   CellGroup,
+  List,
+  SwipeCell,
 } from 'vant'
 import 'vant/lib/index.css'
 
@@ -61,4 +63,6 @@ app
   .use(Form)
   .use(Field)
   .use(CellGroup)
+  .use(List)
+  .use(SwipeCell)
 app.mount('#app')
