@@ -26,6 +26,7 @@ import {
   Lazyload,
   Empty,
   Pagination,
+  Toast,
 } from 'vant'
 import 'vant/lib/index.css'
 
@@ -53,4 +54,5 @@ app
   .use(Lazyload)
   .use(Empty)
   .use(Pagination)
+  .use(Toast)
 app.mount('#app')

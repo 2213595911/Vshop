@@ -16,11 +16,11 @@
       </div>
       <div class="num">
         购买数量：
-        <van-stepper v-model="numValue" />
+        <van-stepper v-model="numValue" :max="desc.stock_quantity" />
       </div>
       <div class="operator">
         <van-button type="primary" size="small">立即购买</van-button>
-        <van-button type="danger" size="small">加入购物车</van-button>
+        <van-button type="danger" size="small" @click="addCart(desc.id)">加入购物车</van-button>
       </div>
     </div>
     <div class="goods_params card">
@@ -43,25 +43,35 @@ import { watch, ref, Ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { getGoodsDesc } from '@/api/useHome'
 import type { goodsType } from '@/types/useHome'
+import { useStore } from 'vuex'
+import { key } from '@/store'
+import { Toast } from 'vant'
+const store = useStore(key)
 const route = useRoute()
 // 购买数量
 const numValue = ref(1)
 const desc = ref() as Ref<goodsType>
+// 监视路径的变化根据不同的id获取不同的商品信息
 watch(
   () => route.path,
   async (path: string) => {
     if (path === `/goods/${route.params.id}`) {
       let id: any = route.params.id
       const { message } = await getGoodsDesc(id * 1)
+      // 信息中追加图片
       message[0].img_url = route.params.img
       desc.value = message[0]
-      console.log(desc.value)
     }
   },
   {
     immediate: true,
   }
 )
+// 加入购物车
+const addCart = (id: number) => {
+  Toast.success('添加购物车成功!')
+  store.commit('cart/addCartId', [id, numValue.value])
+}
 </script>
 
 <style scoped lang="scss">
