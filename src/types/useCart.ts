@@ -4,4 +4,5 @@ export type cartGoodsType = {
   sell_price: number
   thumb_path: string
   title: string
+  done: boolean
 }

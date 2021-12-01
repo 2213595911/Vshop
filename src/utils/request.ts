@@ -8,13 +8,22 @@ const instance = axios.create({
   baseURL: DEV_BASEURL,
   timeout: 5000,
 })
-instance.interceptors.request.use(config => {
-  flag = Toast.loading({
-    message: '加载中...',
-    forbidClick: true,
-  })
-  return config
-})
+instance.interceptors.request.use(
+  config => {
+    flag = Toast.loading({
+      message: '加载中...',
+      forbidClick: true,
+    })
+    return config
+  },
+  error => {
+    flag = Toast.loading({
+      message: '加载时间过长!',
+      forbidClick: true,
+    })
+    return Promise.reject(error)
+  }
+)
 
 instance.interceptors.response.use(
   res => {

@@ -22,6 +22,8 @@ const Cart = () => import('@/views/cart/index.vue')
 
 // 个人中心
 const Personal = () => import('@/views/personal/index.vue')
+// 登录组件
+const Login = () => import('@/views/personal/Login.vue')
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -46,7 +48,8 @@ const routes: Array<RouteRecordRaw> = [
   },
   { path: '/category', meta: { level: 1, title: '分类' }, component: Category },
   { path: '/cart', meta: { level: 1, title: '购物车' }, component: Cart },
-  { path: '/personal', meta: { level: 1, title: '我的' }, component: Personal },
+  { path: '/personal', name: 'personal', meta: { level: 1, title: '我的' }, component: Personal },
+  { path: '/login', component: Login, meta: { level: 2, title: '登录' } },
 ]
 
 const router = createRouter({

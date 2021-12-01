@@ -19,7 +19,7 @@ const onClickLeft = () => {
     router.push('/')
     store.commit('home/changeTitle', '首页')
   } else {
-    router.back()
+    router.go(-1)
   }
 }
 </script>

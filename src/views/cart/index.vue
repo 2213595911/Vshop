@@ -15,7 +15,7 @@ import CartVue from './Cart.vue'
 import CountVue from './Count.vue'
 import { useStore } from 'vuex'
 import { key } from '@/store'
-import { computed, ComputedRef } from 'vue'
+import { computed, ComputedRef, watch } from 'vue'
 import type { cartGoodsType } from '@/types/useCart'
 
 const store = useStore(key)

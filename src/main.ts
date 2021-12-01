@@ -27,6 +27,9 @@ import {
   Empty,
   Pagination,
   Toast,
+  Form,
+  Field,
+  CellGroup,
 } from 'vant'
 import 'vant/lib/index.css'
 
@@ -55,4 +58,7 @@ app
   .use(Empty)
   .use(Pagination)
   .use(Toast)
+  .use(Form)
+  .use(Field)
+  .use(CellGroup)
 app.mount('#app')
