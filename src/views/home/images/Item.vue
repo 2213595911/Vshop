@@ -19,7 +19,7 @@
 <script setup lang="ts">
 import { defineProps, PropType } from 'vue'
 import type { imgListType } from '@/types/useHome'
-const { item } = defineProps({
+defineProps({
   item: {
     type: Object as PropType<imgListType>,
   },

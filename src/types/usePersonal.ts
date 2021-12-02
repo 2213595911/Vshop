@@ -4,6 +4,7 @@ export type userType = {
   password: string
   orders: [cartGoodsType[]]
   data: userInfoType[]
+  address: addressType[]
 }
 
 export type userInfoType = {
@@ -19,4 +20,12 @@ export type orderType = {
 export type helpType = {
   title: string
   content: string
+}
+
+export type addressType = {
+  id?: string
+  name: string
+  mobile: string
+  address: string
+  result: string
 }

@@ -14,5 +14,3 @@ import { ref } from 'vue'
 const activeIndex = ref(0)
 const items = ref([{ text: '分组 1' }, { text: '分组 2' }])
 </script>
-
-<style scoped></style>

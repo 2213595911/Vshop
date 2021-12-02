@@ -6,7 +6,6 @@
     <p class="desc_text" v-html="imgDesc.content"></p>
     <div class="add_time">{{ imgDesc.add_time }}</div>
   </div>
-  <van-loading color="#1989fa" v-else />
 </template>
 
 <script setup lang="ts">

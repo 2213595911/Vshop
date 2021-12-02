@@ -26,15 +26,20 @@ const Personal = () => import('@/views/personal/index.vue')
 const Login = () => import('@/views/personal/Login.vue')
 // 帮助等组件
 const Other = () => import('@/views/personal/Other.vue')
+const HelpItem = () => import('@/views/personal/help/Item.vue')
+// 地址组件
+const addAddress = () => import('@/views/personal/address/AddAddress.vue')
+// 支付页面
+const Pay = () => import('@/views/pay/index.vue')
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     meta: { level: 1, title: '首页' },
     component: Home,
     children: [
-      { path: '', component: Base },
+      { path: '/', component: Base },
       { path: 'news', meta: { level: 2, title: '新闻咨询列表' }, component: News },
-      { path: 'news/:id', meta: { title: '新闻详情页', level: 3 }, component: NewsDesc },
+      { path: 'news/:id', meta: { level: 3, title: '新闻详情页' }, component: NewsDesc },
       {
         path: 'images',
         meta: { level: 2, title: '图片分享列表' },
@@ -53,6 +58,9 @@ const routes: Array<RouteRecordRaw> = [
   { path: '/personal', name: 'personal', meta: { level: 1, title: '我的' }, component: Personal },
   { path: '/login', component: Login, meta: { level: 3, title: '登录' } },
   { path: '/personal/:title', component: Other },
+  { path: '/personal/HelpItem', name: 'HelpItem', component: HelpItem },
+  { path: '/personal/addAddres', meta: { level: 3, title: '新增收货地址' }, component: addAddress },
+  { path: '/pay', component: Pay },
 ]
 
 const router = createRouter({

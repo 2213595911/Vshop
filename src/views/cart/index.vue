@@ -25,6 +25,7 @@ const cartList: ComputedRef<cartGoodsType[] | undefined> = computed(() => store.
 
 <style scoped lang="scss">
 .cart {
+  height: 100vh;
   padding: 10px;
   &-list {
     background: $color_white;

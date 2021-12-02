@@ -14,15 +14,14 @@ import { key } from '@/store'
 import { Toast } from 'vant'
 import { useRouter } from 'vue-router'
 import type { cartGoodsType } from '@/types/useCart'
-import type { userType } from '@/types/usePersonal'
 import { countPrice, count } from '@/utils/useCart'
-import { getData } from '@/utils/useLocal'
+import { ComponentInstance } from 'vant/lib/utils'
 
 const router = useRouter()
 const store = useStore(key)
 const checked = computed({
   get(): boolean {
-    return store.state.cart?.cart.all!
+    return store.state.cart?.cart.all as boolean
   },
   set(v) {
     store.commit('cart/allSelected', v)
@@ -33,7 +32,7 @@ const onSubmit = (): void => {
   const isLogin = computed(() => store.state.personal?.isLogin)
   if (isLogin.value) {
     console.log('跳转到支付页面')
-    let flag: any = null
+    let flag: ComponentInstance | null = null
     new Promise(resolve => {
       flag = Toast.loading({
         message: '正在跳转订单支付页面...',
@@ -42,24 +41,13 @@ const onSubmit = (): void => {
       setTimeout(() => {
         // 获取购物车里的商品列表信息
         const cartGoodsList: ComputedRef<cartGoodsType[]> = computed(() => {
-          return store.state.cart?.cart.goodsDesc!
+          return store.state.cart?.cart.goodsDesc as unknown as cartGoodsType[]
         })
-        // 获取localStorage存储的用户信息
-        const userInfo: userType = getData('userInfo')
-        const valid = userInfo.orders.every((item, i) => {
-          const flag = item.every((item, index) => item.id === cartGoodsList.value[index].id)
-          if (flag) {
-            userInfo.orders[i] = cartGoodsList.value
-          }
-          return resolve(userInfo)
-        })
-        console.log(valid)
-        userInfo.orders.push(cartGoodsList.value)
-        resolve(userInfo)
+        resolve(cartGoodsList.value)
       }, 1000)
     }).then(value => {
       flag.clear()
-      localStorage.setItem('userInfo', JSON.stringify(value))
+      store.commit('personal/addGoods', value)
       router.push('/personal/order?title=我的订单')
     })
   } else {

@@ -24,7 +24,7 @@ export default {
     },
     // 设置点击次数响应
     clickNumber(state, id: number): void {
-      const current = state.news.find(item => item.id === id)!
+      const current = state.news.find(item => item.id === id)
       if (current && !current.done) {
         current.done = true
         current.click++
@@ -51,7 +51,7 @@ export default {
       const { message } = await getImgSubCate(id)
       commit('setImage', message as imgListType[])
     },
-    async getGoodsList({ commit }, num: number = 1): Promise<void> {
+    async getGoodsList({ commit }, num = 1): Promise<void> {
       const { message } = await getGoodsList(num)
       commit('setGoods', message)
     },

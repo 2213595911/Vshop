@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, Ref, defineProps, PropType, watch, computed } from 'vue'
+import { ref, Ref, defineProps, PropType, computed } from 'vue'
 import type { cartGoodsType } from '@/types/useCart'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
@@ -21,27 +21,29 @@ import { Toast } from 'vant'
 const router = useRouter()
 const store = useStore(key)
 
-const { item } = defineProps({
+const props = defineProps({
   item: {
     type: Object as PropType<cartGoodsType>,
   },
 })
 
 // 控制数量
-const value: Ref<number> = ref(item?.cou!)
+const value: Ref<number> = ref(props.item?.cou as number)
 // 复选框状态
 // const checked = ref(item?.done)
 const checked = computed({
   get() {
-    return item?.done
+    return props.item?.done
   },
   set(v) {
-    store.commit('cart/changeSelected', { id: item?.id, done: v })
+    store.commit('cart/changeSelected', { id: props.item?.id, done: v })
     store.dispatch('cart/getCartList')
   },
 })
 
-const changeState = (id: number | undefined): void => {}
+const changeState = (id: number | undefined): void => {
+  console.log(id)
+}
 // 当点击添加商品数量之后
 const addCou = (id: number | undefined): void => {
   store.commit('cart/changeGoodsNum', [id, 1])

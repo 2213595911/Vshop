@@ -10,9 +10,10 @@
 <script setup lang="ts">
 import SwiperVue from '@/components/home/Swiper.vue'
 import GridVue from '@/components/home/Grid.vue'
-import {getBanner} from "@/api/useHome";
+import { getBanner } from '@/api/useHome'
 
-const {message} = await getBanner()
+const { message } = await getBanner()
+// console.log()
 </script>
 
 <style scoped>

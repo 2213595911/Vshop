@@ -1,13 +1,23 @@
 <template>
+  <h2 class="orderNum">订单号:{{ 48656164657229 + '2021' + props.index }}</h2>
   <van-swipe-cell v-for="goods in item" :key="goods.id">
-    <van-card :num="goods.cou" :price="goods.sell_price" :title="goods.title" class="goods-card" :thumb="goods.thumb_path" />
+    <van-card
+      :num="goods.cou"
+      :price="goods.sell_price"
+      :title="goods.title"
+      class="goods-card"
+      :thumb="goods.thumb_path"
+      @click-thumb="$router.push(`/goods/${goods.id}`)"
+    />
     <template #right>
-      <van-button square text="删除" type="danger" class="delete-button" />
+      <van-button square text="删除" type="danger" class="delete-button" @click="del(goods.id)" />
     </template>
   </van-swipe-cell>
   <div class="pay">
-    <span>总价格:<strong class="count">￥123</strong></span>
-    <van-button size="small" type="primary">立即支付</van-button>
+    <span
+      >总价格:<strong class="count">￥{{ count }}</strong></span
+    >
+    <van-button size="small" type="primary" @click="$router.push('/pay')">立即支付</van-button>
   </div>
   <div class="deleteOrder">
     <a href="javascript:;" @click="deleteOrder">删除订单</a>
@@ -15,13 +25,14 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, PropType } from 'vue'
+import { defineProps, PropType, computed } from 'vue'
 import type { cartGoodsType } from '@/types/useCart'
-import type { userType } from '@/types/usePersonal'
 import { Toast, Dialog } from 'vant'
-import { getData, setData } from '@/utils/useLocal'
+import { useStore } from 'vuex'
+import { key } from '@/store'
 
-const { index } = defineProps({
+const store = useStore(key)
+const props = defineProps({
   item: {
     type: Object as PropType<cartGoodsType[]>,
   },
@@ -30,6 +41,10 @@ const { index } = defineProps({
   },
 })
 
+// 总价格
+const count = computed(() => {
+  return props.item?.reduce((p, c) => p + c.sell_price * c.cou, 0)
+})
 // 删除订单
 const deleteOrder = (): void => {
   Dialog.confirm({
@@ -38,19 +53,26 @@ const deleteOrder = (): void => {
     confirmButtonColor: 'rgb(39, 162, 255)',
   })
     .then(() => {
-      // on confirm
-      const userInfo: userType = getData('userInfo')
-      userInfo.orders.splice(index!, 1)
-      setData('userInfo', userInfo)
+      store.commit('personal/deleteOrder', props.index)
     })
     .catch(() => {
-      // on cancel
       Toast('已取消删除')
     })
+}
+// 删除订单中单独的商品
+const del = (id: number): void => {
+  console.log(id)
+
+  store.commit('personal/del', [props.index, id])
 }
 </script>
 
 <style scoped lang="scss">
+.orderNum {
+  font-size: 28px;
+  margin: 0;
+  margin-left: 20px;
+}
 .pay {
   margin-top: 10px;
   float: right;

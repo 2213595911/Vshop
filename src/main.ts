@@ -22,7 +22,6 @@ import {
   Stepper,
   SubmitBar,
   Checkbox,
-  Loading,
   Lazyload,
   Empty,
   Pagination,
@@ -32,6 +31,10 @@ import {
   CellGroup,
   List,
   SwipeCell,
+  ShareSheet,
+  Area,
+  Popup,
+  Overlay,
 } from 'vant'
 import 'vant/lib/index.css'
 
@@ -55,7 +58,6 @@ app
   .use(SubmitBar)
   .use(Checkbox)
   .use(Cell)
-  .use(Loading)
   .use(Lazyload)
   .use(Empty)
   .use(Pagination)
@@ -65,4 +67,8 @@ app
   .use(CellGroup)
   .use(List)
   .use(SwipeCell)
+  .use(ShareSheet)
+  .use(Area)
+  .use(Popup)
+  .use(Overlay)
 app.mount('#app')

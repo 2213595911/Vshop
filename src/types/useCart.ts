@@ -5,4 +5,5 @@ export type cartGoodsType = {
   thumb_path: string
   title: string
   done: boolean
+  orderNum: number
 }

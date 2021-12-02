@@ -31,11 +31,6 @@
       </div>
     </div>
   </div>
-  <template v-else>
-    <div>
-      <van-loading color="#1989fa" />
-    </div>
-  </template>
 </template>
 
 <script setup lang="ts">
@@ -137,11 +132,5 @@ const addCart = (id: number) => {
       }
     }
   }
-}
-.van-loading {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 </style>
