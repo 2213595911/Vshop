@@ -1,16 +1,20 @@
 <template>
-  <div class="category">
-    <van-tree-select v-model:main-active-index="activeIndex" height="55vw" :items="items">
-      <template #content>
-        <h2 v-if="activeIndex === 0">后盾人1</h2>
-        <h2 v-else-if="activeIndex === 1">后盾人2</h2>
-      </template>
-    </van-tree-select>
+  <div class="category" v-if="category?.length">
+    <tree-select-vue :category="category"></tree-select-vue>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-const activeIndex = ref(0)
-const items = ref([{ text: '分组 1' }, { text: '分组 2' }])
+import { ref, Ref } from 'vue'
+import { getCate } from '@/api/useCate'
+import { recursion } from '@/utils/useCate'
+import type { CateType } from '@/types/useCate'
+import TreeSelectVue from '@/components/category/TreeSelect.vue'
+
+const category: Ref<CateType[] | undefined> = ref()
+
+// 获取后台数据
+getCate().then(value => {
+  category.value = recursion(value.data)
+})
 </script>

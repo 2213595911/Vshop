@@ -7,7 +7,10 @@
       </div>
       <p class="address">{{ address }}</p>
     </div>
-    <a href="javascript:;" @click="editor">编辑</a>
+    <div>
+      <a href="javascript:;" @click="editor">编辑</a>
+      <a href="javascript:;" @cilck="del">删除</a>
+    </div>
     <!-- 修改地址遮罩层 -->
     <van-overlay :show="show" @click="show = false" class="changeAddress">
       <van-form @submit="onSubmit" @failed="failed" @click.stop>
@@ -39,12 +42,12 @@ import { useStore } from 'vuex'
 import { key } from '@/store'
 
 const store = useStore(key)
-const { item } = defineProps({
+const props = defineProps({
   item: {
     type: Object as PropType<addressType>,
   },
 })
-const address = computed(() => `${item?.result.split('/').join(' ')} ${item?.address}`)
+const address = computed(() => `${props.item?.result.split('/').join(' ')} ${props.item?.address}`)
 
 const show = ref(false)
 // 修改地址信息表单
@@ -77,10 +80,14 @@ const onSubmit = (): void => {
 const failed = (): void => {
   Toast.fail('请按照规则填写好提交!')
 }
-// 编辑表单
+// 编辑地址
 const editor = (): void => {
   show.value = true
-  form.value = item!
+  form.value = props.item!
+}
+// 删除地址
+const del = (): void => {
+  console.log(1)
 }
 </script>
 
@@ -112,9 +119,17 @@ const editor = (): void => {
       font-size: 25px;
     }
   }
-  a {
-    font-size: 28px;
-    color: #f39c12;
+  div {
+    display: flex;
+    flex-direction: column;
+    a {
+      font-size: 28px;
+      color: #2f3640;
+
+      &:last-of-type {
+        color: #e84118;
+      }
+    }
   }
   .changeAddress {
     display: flex;

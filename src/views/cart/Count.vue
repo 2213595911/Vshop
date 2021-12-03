@@ -14,11 +14,13 @@ import { key } from '@/store'
 import { Toast } from 'vant'
 import { useRouter } from 'vue-router'
 import type { cartGoodsType } from '@/types/useCart'
-import { countPrice, count } from '@/utils/useCart'
 import { ComponentInstance } from 'vant/lib/utils'
 
 const router = useRouter()
 const store = useStore(key)
+const countPrice = computed(() => store.getters['cart/countPrice'])
+const count = computed(() => store.getters['cart/count'])
+
 const checked = computed({
   get(): boolean {
     return store.state.cart?.cart.all as boolean

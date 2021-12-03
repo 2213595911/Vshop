@@ -17,7 +17,7 @@ export default {
   state: initial,
   mutations: {
     // 添加新商品到购物车
-    addCartId(state, arg: number[]): void {
+    addCartId(state: CartState, arg: number[]): void {
       const [id, num] = arg
       // 存放id数组中没有这个id的时候才去追加
       if (!state.cart.goodsId.includes(id)) state.cart.goodsId.push(id)
@@ -38,7 +38,6 @@ export default {
     changeGoodsNum(state, arg: number[]): void {
       const [id, num] = arg
       state.cart.addNum[id] += num
-
       resetCart(state)
     },
     // 删除购物车中的指定商品
@@ -67,13 +66,21 @@ export default {
   },
   actions: {
     // 请求购物车列表
-    async getCartList({ commit, state }): Promise<void> {
-      // if (state.cart.goodsDesc.length && state.cart.goodsId.length) return
-      // state.cart.all = true
+    async getCartList({ commit }): Promise<void> {
       const result = await getCart()
       if (result?.message) {
         commit('setCartGoods', result.message)
       }
+    },
+  },
+  getters: {
+    // 总数量
+    count(state) {
+      return state.cart?.goodsDesc.reduce((p, c) => p + c.cou, 0)
+    },
+    // 总价格
+    countPrice(state) {
+      return state.cart?.goodsDesc.filter(item => item.done).reduce((p, c) => (p += c.sell_price * c.cou), 0) * 100
     },
   },
 } as Module<CartState, State>

@@ -31,7 +31,6 @@ instance.interceptors.response.use(
     if (res.status === 200) {
       return res.data
     }
-    console.log(res)
   },
   error => {
     return Promise.reject(error)

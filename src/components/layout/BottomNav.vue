@@ -8,9 +8,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { count } from '@/utils/useCart'
+import { ref, computed } from 'vue'
+import { useStore } from 'vuex'
+import { key } from '@/store'
 
+const store = useStore(key)
+const count = computed(() => store.getters['cart/count'])
 const active = ref(0)
 </script>
 
