@@ -20,23 +20,21 @@
 
 <script setup lang="ts">
 import { computed, ref, Ref } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { key } from '@/store'
-import avatar from '@/assets/images/avatar_load.jpg'
 import type { userInfoType } from '@/types/usePersonal'
 import { Toast } from 'vant'
 
 const store = useStore(key)
 const router = useRouter()
-const route = useRoute()
 const userInfo: Ref<null | userInfoType> = ref(null)
 const isLogin = computed(() => store.state.personal?.isLogin)
+const image = require('@/assets/images/avatar_load.jpg')
 if (isLogin.value) {
   const { data } = JSON.parse(localStorage.getItem('userInfo')!) as { data: userInfoType }
   userInfo.value = data
 }
-const image = avatar
 const login = (): void => {
   router.push('/login')
 }

@@ -1,13 +1,11 @@
 import { Module } from 'vuex'
 import type { State } from '../index'
-import { getCart } from '@/api/useCart'
-import { resetCart } from '@/utils/resetNum'
+import { getCart, addCartGoods } from '@/api/useCart'
+import type { cartGoodsType } from '@/types/useCart'
 const initial = {
   cart: {
     goodsId: [] as number[],
-    addNum: {} as { [key: string]: number },
-    goodsDesc: [] as any[],
-    all: true as boolean,
+    goodsDesc: [] as cartGoodsType[],
   },
 }
 
@@ -16,71 +14,87 @@ export default {
   namespaced: true,
   state: initial,
   mutations: {
-    // 添加新商品到购物车
-    addCartId(state: CartState, arg: number[]): void {
-      const [id, num] = arg
-      // 存放id数组中没有这个id的时候才去追加
-      if (!state.cart.goodsId.includes(id)) state.cart.goodsId.push(id)
-      // 如果传递了num代表选择了数量那么我们就需要选择的数量存储到对象中
-      if (num) {
-        state.cart.addNum[id] += num
-      }
-    },
     // 设置购物车商品
-    setCartGoods(state, payload): void {
-      if (payload.length) {
-        resetCart(state, payload)
-      }
-      // 如果存储添加数量的对象中可以找到当前的商品id证明添加过，那么就把添加的数量替换掉
+    setCartGoods(state, payload: cartGoodsType[]): void {
+      const data = payload.filter((item, index) => item.id !== state.cart.goodsDesc[index]?.id)
+      console.log(data)
       state.cart.goodsDesc = payload
     },
-    // 修改商品的数量
-    changeGoodsNum(state, arg: number[]): void {
+    // 修改商品在购物车中的数量
+    changeGoodsNum(state, arg: [id: number, num: number]): void {
       const [id, num] = arg
-      state.cart.addNum[id] += num
-      resetCart(state)
+      const current = state.cart.goodsDesc.find(item => item.id === id)!
+      current.cou = num
     },
     // 删除购物车中的指定商品
     delGoodsCart(state, id: number): void {
       const index = state.cart.goodsId.findIndex(item => item === id)
+      const current = state.cart.goodsDesc.findIndex(item => item.id === id)
       state.cart.goodsId.splice(index, 1)
-      state.cart.addNum[id] = 1
-    },
-    // 清空购物车
-    clearCart(state): void {
-      state.cart.goodsId = []
-      state.cart.goodsDesc = []
+      state.cart.goodsDesc.splice(current, 1)
     },
     // 修改购物车指定商品的选中状态
-    changeSelected(state, data): void {
-      const { id, done } = data
-      const current = state.cart.goodsDesc.find(item => item.id === id)
+    changeSelected(state, data: [id: number, done: boolean]): void {
+      const [id, done] = data
+      const current = state.cart.goodsDesc.find(item => item.id === id)!
       current.done = done
-      console.log(current)
     },
+    // 添加商品
+    addCartId(state, data: cartGoodsType): void {
+      const current = state.cart.goodsDesc.find(item => item.id === data.id)
+      if (current) {
+        console.log(current.cou, data.cou)
+        current.cou += data.cou
+        return
+      }
+      state.cart.goodsId.push(data.id)
+      state.cart.goodsDesc.push(data)
+    },
+    // 清空购物车
+    // clearCart(state): void {
+    //   state.cart.goodsId = []
+    //   state.cart.goodsDesc = []
+    // },
+
     // 商品全选
     allSelected(state, status: boolean): void {
-      state.cart.all = status
       state.cart.goodsDesc.forEach(item => (item.done = status))
     },
   },
   actions: {
     // 请求购物车列表
-    async getCartList({ commit }): Promise<void> {
+    async getCartList({ commit, state }): Promise<void> {
+      if (state.cart.goodsDesc.length) return
       const result = await getCart()
       if (result?.message) {
         commit('setCartGoods', result.message)
       }
     },
+    // 添加购物车商品
+    async addCart({ commit }, arg: number[]): Promise<void> {
+      const [id, number] = arg
+      const result = await addCartGoods([id])
+      result.message[0].cou = number
+      result.message[0].done = true
+      commit('addCartId', result.message[0])
+    },
   },
   getters: {
-    // 总数量
-    count(state) {
-      return state.cart?.goodsDesc.reduce((p, c) => p + c.cou, 0)
+    // 选中的总数
+    count(state): number {
+      return state.cart.goodsDesc.filter(item => item.done).reduce((p, c) => p + c.cou, 0)
+    },
+    // 全部的总数
+    allCount(state): number {
+      return state.cart.goodsDesc.reduce((p, c) => p + c.cou, 0)
     },
     // 总价格
-    countPrice(state) {
-      return state.cart?.goodsDesc.filter(item => item.done).reduce((p, c) => (p += c.sell_price * c.cou), 0) * 100
+    countPrice(state): number {
+      return state.cart.goodsDesc.filter(item => item.done).reduce((p, c) => p + c.sell_price * c.cou, 0) * 100
+    },
+    // 全选按钮状态
+    allChecked(state): boolean {
+      return state.cart.goodsDesc.every(item => item.done)
     },
   },
 } as Module<CartState, State>

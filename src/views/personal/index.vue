@@ -2,6 +2,7 @@
   <div class="self">
     <!-- 头像 -->
     <avatar-vue></avatar-vue>
+    <!-- 功能分类 -->
     <van-cell v-for="(link, index) in links" :key="index" :title="link.title" @click="changeOrder(link)" is-link />
   </div>
 </template>

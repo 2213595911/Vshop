@@ -21,21 +21,25 @@ const store = useStore(key)
 const countPrice = computed(() => store.getters['cart/countPrice'])
 const count = computed(() => store.getters['cart/count'])
 
+// 全选按钮状态
 const checked = computed({
-  get(): boolean {
-    return store.state.cart?.cart.all as boolean
+  get() {
+    return store.getters['cart/allChecked']
   },
-  set(v) {
-    store.commit('cart/allSelected', v)
+  set(status: boolean) {
+    store.commit('cart/allSelected', status)
   },
 })
 // 提交订单
 const onSubmit = (): void => {
   const isLogin = computed(() => store.state.personal?.isLogin)
   if (isLogin.value) {
-    console.log('跳转到支付页面')
     let flag: ComponentInstance | null = null
     new Promise(resolve => {
+      if (!store.getters['cart/count']) {
+        Toast.fail('请选择商品!')
+        return
+      }
       flag = Toast.loading({
         message: '正在跳转订单支付页面...',
         forbidClick: true,
@@ -43,12 +47,12 @@ const onSubmit = (): void => {
       setTimeout(() => {
         // 获取购物车里的商品列表信息
         const cartGoodsList: ComputedRef<cartGoodsType[]> = computed(() => {
-          return store.state.cart?.cart.goodsDesc as unknown as cartGoodsType[]
+          return store.state.cart?.cart.goodsDesc.filter(goods => goods.done) as unknown as cartGoodsType[]
         })
         resolve(cartGoodsList.value)
       }, 1000)
     }).then(value => {
-      flag.clear()
+      flag?.clear()
       store.commit('personal/addGoods', value)
       router.push('/personal/order?title=我的订单')
     })

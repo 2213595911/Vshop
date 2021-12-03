@@ -1,9 +1,10 @@
 export type cartGoodsType = {
   cou: number
+  done?: boolean
   id: number
   sell_price: number
   thumb_path: string
   title: string
-  done: boolean
-  orderNum: number
+  orderNum?: number
+  pay: boolean
 }

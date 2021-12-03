@@ -9,7 +9,7 @@
     </div>
     <div>
       <a href="javascript:;" @click="editor">编辑</a>
-      <a href="javascript:;" @cilck="del">删除</a>
+      <a href="javascript:;" @click="del(item?.id)">删除</a>
     </div>
     <!-- 修改地址遮罩层 -->
     <van-overlay :show="show" @click="show = false" class="changeAddress">
@@ -86,8 +86,8 @@ const editor = (): void => {
   form.value = props.item!
 }
 // 删除地址
-const del = (): void => {
-  console.log(1)
+const del = (id: string | undefined): void => {
+  store.commit('personal/delAddress', id)
 }
 </script>
 

@@ -43,8 +43,7 @@ import { key } from '@/store'
 import { Toast } from 'vant'
 const store = useStore(key)
 const route = useRoute()
-// 购买数量
-const numValue = ref(1)
+
 const desc = ref() as Ref<goodsType>
 // 监视路径的变化根据不同的id获取不同的商品信息
 watch(
@@ -62,10 +61,13 @@ watch(
     immediate: true,
   }
 )
+
+// 购买数量
+const numValue = ref(1)
 // 加入购物车
 const addCart = (id: number) => {
+  store.dispatch('cart/addCart', [id, numValue.value])
   Toast.success('添加购物车成功!')
-  store.commit('cart/addCartId', [id, numValue.value])
 }
 </script>
 

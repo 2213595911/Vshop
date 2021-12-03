@@ -4,13 +4,14 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 const Home = () => import('@/views/home/index.vue')
 // 首页二级
 const Base = () => import('@/views/home/base.vue')
+// 新闻
 const News = () => import('@/views/home/news/index.vue')
 const NewsDesc = () => import('@/views/home/news/newsDesc.vue')
+// 图片
 const Images = () => import('@/views/home/images/index.vue')
-// 图片三级
 const ImageList = () => import('@/views/home/images/ImageList.vue')
 const ImgDesc = () => import('@/views/home/images/Desc.vue')
-
+// 商品
 const Goods = () => import('@/views/home/goods/index.vue')
 const GoodsDesc = () => import('@/views/home/goods/Desc.vue')
 
@@ -60,7 +61,7 @@ const routes: Array<RouteRecordRaw> = [
   { path: '/personal/:title', component: Other },
   { path: '/personal/HelpItem', name: 'HelpItem', component: HelpItem },
   { path: '/personal/addAddres', meta: { level: 3, title: '新增收货地址' }, component: addAddress },
-  { path: '/pay', component: Pay },
+  { path: '/pay', meta: { title: '支付中心' }, component: Pay },
 ]
 
 const router = createRouter({

@@ -2,11 +2,15 @@ import { Module } from 'vuex'
 import { getData, setData } from '@/utils/useLocal'
 import type { State } from '../index'
 import type { userType, addressType } from '@/types/usePersonal'
+import type { cartGoodsType } from '@/types/useCart'
 
 const initial = {
   isLogin: false,
   userInfo: {
     address: [] as addressType[],
+    username: 'admin',
+    password: 'admin',
+    orders: [[]] as [cartGoodsType[]],
   } as userType,
 }
 export type PersonalState = typeof initial
@@ -19,7 +23,7 @@ export default {
       state.isLogin = status
     },
     // 订单业务
-    // 获取localstorage数据
+    // 获取订单数据
     getOrder(state): void {
       const data = getData('userInfo')
       state.userInfo = data
@@ -30,7 +34,9 @@ export default {
       setData('userInfo', state.userInfo)
     },
     // 添加商品
-    addGoods(state, arg): void {
+    addGoods(state, arg: cartGoodsType[]): void {
+      // 添加支付状态
+      arg.forEach(item => (item.pay = false))
       state.userInfo.orders.push(arg)
       setData('userInfo', state.userInfo)
     },
@@ -59,6 +65,11 @@ export default {
     changeAddress(state, form: addressType): void {
       const index = state.userInfo.address.findIndex(item => item.id === form.id)
       state.userInfo.address[index] = form
+      setData('userInfo', state.userInfo)
+    },
+    delAddress(state, id: string) {
+      const index = state.userInfo.address.findIndex(item => item.id === id)
+      state.userInfo.address.splice(index, 1)
       setData('userInfo', state.userInfo)
     },
   },

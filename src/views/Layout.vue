@@ -16,6 +16,7 @@ import { useRoute } from 'vue-router'
 import { watch } from 'vue'
 import { useStore } from 'vuex'
 import { key } from '@/store'
+import '@/utils/usePerson'
 
 const route = useRoute()
 const store = useStore(key)

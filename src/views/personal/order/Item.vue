@@ -13,6 +13,10 @@
       <van-button square text="删除" type="danger" class="delete-button" @click="del(goods.id)" />
     </template>
   </van-swipe-cell>
+  <div class="payStatus">
+    <span class="pay" v-if="payStatus">已支付</span>
+    <span class="depay" v-else>待支付</span>
+  </div>
   <div class="pay">
     <span
       >总价格:<strong class="count">￥{{ count }}</strong></span
@@ -40,7 +44,10 @@ const props = defineProps({
     type: Number,
   },
 })
-
+// 支付状态
+const payStatus = computed(() => {
+  return store.state.personal?.userInfo.orders[props.index!].every(item => item.pay)
+})
 // 总价格
 const count = computed(() => {
   return props.item?.reduce((p, c) => p + c.sell_price * c.cou, 0)
@@ -72,6 +79,17 @@ const del = (id: number): void => {
   font-size: 28px;
   margin: 0;
   margin-left: 20px;
+}
+.payStatus {
+  font-size: 30px;
+  text-align: right;
+  margin-right: 15px;
+  .pay {
+    color: #2ecc71;
+  }
+  .depay {
+    color: #e74c3c;
+  }
 }
 .pay {
   margin-top: 10px;
