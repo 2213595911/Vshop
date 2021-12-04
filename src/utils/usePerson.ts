@@ -2,12 +2,8 @@ import { reactive } from 'vue'
 import { getData } from './useLocal'
 
 // 用户信息
-const userInfo = reactive({
-  address: [
-    { id: 'eDoAAhWkJW-MsQHsIHuKh', name: '王浩楠', mobile: '15933371902', result: '内蒙古自治区/呼和浩特市/新城区', address: '东三召乡西三召村' },
-    { id: 'IUVtzQYTDaNHt1i02nPM5', name: '王浩楠', mobile: '15933371902', result: '北京市/北京市/东城区', address: 'dongsnahzao' },
-    { id: 'RePqsmlHeR5i8nUqUZWGH', name: '铁蛋', mobile: '15911199999', result: '山西省/太原市/小店区', address: '山旮旯' },
-  ],
+const userData = reactive({
+  address: [],
   username: 'admin',
   password: 'admin',
   data: { avatar: 'https://www.escook.cn/vuebase/pics/7.png', userName: '码路伢子' },
@@ -58,13 +54,12 @@ const userInfo = reactive({
     ],
   ],
 })
-
 // 设置静态用户信息
 export function setUserInfo(): void {
   const userInfo = getData('userInfo')
   if (userInfo) {
     return
   }
-  localStorage.setItem('userInfo', JSON.stringify(userInfo))
+  localStorage.setItem('userInfo', JSON.stringify(userData))
 }
 setUserInfo()

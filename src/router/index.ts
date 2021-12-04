@@ -33,7 +33,6 @@ const HelpItem = () => import('@/views/personal/help/Item.vue')
 // 地址组件
 const addAddress = () => import('@/views/personal/address/AddAddress.vue')
 // 支付页面
-const Pay = () => import('@/views/pay/index.vue')
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',

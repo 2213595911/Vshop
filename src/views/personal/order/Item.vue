@@ -33,11 +33,12 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, PropType, computed, ref } from 'vue'
+import { defineProps, PropType, computed, ref, Ref } from 'vue'
 import type { cartGoodsType } from '@/types/useCart'
 import { Toast, Dialog } from 'vant'
 import { useStore } from 'vuex'
 import { key } from '@/store'
+import { ComponentInstance } from 'vant/lib/utils'
 
 const store = useStore(key)
 const props = defineProps({
@@ -50,7 +51,7 @@ const props = defineProps({
 })
 // 支付状态
 const payStatus = computed(() => {
-  return store.state.personal?.userInfo.orders[props.index!].every(item => item.pay)
+  return store.state.personal?.userInfo.orders[props.index as number].every(item => item.pay)
 })
 // 总价格
 const count = computed(() => {
@@ -73,12 +74,11 @@ const deleteOrder = (): void => {
 // 删除订单中单独的商品
 const del = (id: number): void => {
   console.log(id)
-
   store.commit('personal/del', [props.index, id])
 }
 // 支付
 const pay = (): void => {
-  let flag: any = ref()
+  let flag: undefined | ComponentInstance
   new Promise(resolve => {
     if (payStatus.value) {
       return
@@ -91,7 +91,7 @@ const pay = (): void => {
       resolve(props.index)
     }, 1000)
   }).then((index: any) => {
-    flag.clear()
+    flag!.clear()
     store.commit('personal/pay', index)
     Toast.success('支付成功！')
   })

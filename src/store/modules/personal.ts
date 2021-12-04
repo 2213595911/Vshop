@@ -108,6 +108,8 @@ export default {
     // 修改用户名称
     changeUserName(state, value: string): void {
       state.userInfo.data.userName = value
+      console.log(state.userInfo)
+
       setData('userInfo', state.userInfo)
     },
   },
