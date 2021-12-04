@@ -1,7 +1,7 @@
 import { Module } from 'vuex'
 import { getData, setData } from '@/utils/useLocal'
 import type { State } from '../index'
-import type { userType, addressType } from '@/types/usePersonal'
+import type { userType, addressType, userInfoType } from '@/types/usePersonal'
 import type { cartGoodsType } from '@/types/useCart'
 
 const initial = {
@@ -11,6 +11,7 @@ const initial = {
     username: 'admin',
     password: 'admin',
     orders: [[]] as [cartGoodsType[]],
+    data: {} as userInfoType,
   } as userType,
 }
 export type PersonalState = typeof initial
@@ -67,9 +68,15 @@ export default {
       state.userInfo.address[index] = form
       setData('userInfo', state.userInfo)
     },
-    delAddress(state, id: string) {
+    // 删除地址
+    delAddress(state, id: string): void {
       const index = state.userInfo.address.findIndex(item => item.id === id)
       state.userInfo.address.splice(index, 1)
+      setData('userInfo', state.userInfo)
+    },
+    // 修改用户名称
+    changeUserName(state, value: string): void {
+      state.userInfo.data.userName = value
       setData('userInfo', state.userInfo)
     },
   },

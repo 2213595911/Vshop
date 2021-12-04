@@ -7,4 +7,5 @@ export type cartGoodsType = {
   title: string
   orderNum?: number
   pay: boolean
+  maxInventory?: number
 }

@@ -3,7 +3,6 @@
     <router-link
       :to="{
         path: `/news/${news.id}`,
-        query: { id: news.id },
       }"
     >
       <img :src="news.img_url" alt="" />
@@ -48,17 +47,18 @@ function newsDesc(id: number) {
   }
 
   img {
-    width: 40px;
-    height: 40px;
+    width: 80px;
+    height: 80px;
   }
 
   .desc {
     margin-left: 10px;
     flex: 1;
     min-width: 300px;
+    padding: 10px 0;
 
     .title {
-      font-size: 20px;
+      font-size: 28px;
       font-weight: 400;
       color: $color_title;
       margin-bottom: 5px;
@@ -70,7 +70,7 @@ function newsDesc(id: number) {
 
       .date,
       .click {
-        font-size: 12px;
+        font-size: 26px;
         color: $color_theme;
       }
     }

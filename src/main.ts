@@ -35,6 +35,7 @@ import {
   Area,
   Popup,
   Overlay,
+  Uploader,
 } from 'vant'
 import 'vant/lib/index.css'
 
@@ -71,4 +72,5 @@ app
   .use(Area)
   .use(Popup)
   .use(Overlay)
+  .use(Uploader)
 app.mount('#app')

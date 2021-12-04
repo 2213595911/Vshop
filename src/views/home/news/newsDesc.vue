@@ -14,7 +14,7 @@ import { computed, ComputedRef } from 'vue'
 import { getNewsDesc } from '@/api/useHome'
 import type { newsType } from '@/types/useHome'
 const route = useRoute()
-const id = computed(() => route.query.id)
+const id = computed(() => route.params.id)
 const result = await getNewsDesc(id.value)
 const desc: ComputedRef<newsType> = computed(() => result.message[0])
 console.log(desc)

@@ -28,14 +28,14 @@
 <script setup lang="ts">
 import { Toast } from 'vant'
 import { reactive } from 'vue'
-import type { userType } from '@/types/usePersonal'
+import type { userType, formUserType } from '@/types/usePersonal'
 import { useStore } from 'vuex'
 import { key } from '@/store'
 import { useRouter } from 'vue-router'
 
 const store = useStore(key)
 const router = useRouter()
-const userInfo: userType = reactive({
+const userInfo: formUserType = reactive({
   username: '',
   password: '',
 })

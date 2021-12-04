@@ -4,7 +4,7 @@
     <van-card :num="value" centered :price="item?.sell_price" :title="item?.title" :thumb="item?.thumb_path" @click-thumb="link(item?.id)">
       <template #footer>
         <van-button type="danger" size="mini" @click="delCartGoods(item?.id)">删除</van-button>
-        <van-stepper max="99" v-model="value" @change="changeNum" />
+        <van-stepper :max="max" v-model="value" @change="changeNum" />
       </template>
     </van-card>
   </div>
@@ -20,13 +20,13 @@ import { Toast } from 'vant'
 
 const router = useRouter()
 const store = useStore(key)
-
 const props = defineProps({
   item: {
     type: Object as PropType<cartGoodsType>,
   },
 })
 
+const max = computed(() => props.item?.maxInventory)
 // 控制数量
 const value: Ref<number> = ref(props.item?.cou as number)
 // 复选框状态

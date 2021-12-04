@@ -2,7 +2,7 @@
   <div>
     <van-submit-bar :price="countPrice" :button-text="`提交订单(${count})`" @submit="onSubmit" :decimal-length="2">
       <van-checkbox v-model="checked">全选</van-checkbox>
-      <template #tip> 总计不包含运费</template>
+      <template #tip> 总计不包含运费<a href="javascript:;" class="clear" @click="clearCart">清空购物车</a></template>
     </van-submit-bar>
   </div>
 </template>
@@ -72,6 +72,14 @@ const onSubmit = (): void => {
     })
   }
 }
+// 清空购物车
+const clearCart = (): void => {
+  store.commit('cart/clearCart')
+}
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.clear {
+  float: right;
+}
+</style>

@@ -2,6 +2,8 @@ import { Module } from 'vuex'
 import type { State } from '../index'
 import { getCart, addCartGoods } from '@/api/useCart'
 import type { cartGoodsType } from '@/types/useCart'
+import { getData } from '@/utils/useLocal'
+
 const initial = {
   cart: {
     goodsId: [] as number[],
@@ -16,8 +18,7 @@ export default {
   mutations: {
     // 设置购物车商品
     setCartGoods(state, payload: cartGoodsType[]): void {
-      const data = payload.filter((item, index) => item.id !== state.cart.goodsDesc[index]?.id)
-      console.log(data)
+      // const data = payload.filter((item, index) => item.id !== state.cart.goodsDesc[index]?.id)
       state.cart.goodsDesc = payload
     },
     // 修改商品在购物车中的数量
@@ -41,21 +42,30 @@ export default {
     },
     // 添加商品
     addCartId(state, data: cartGoodsType): void {
-      const current = state.cart.goodsDesc.find(item => item.id === data.id)
+      const current = state.cart.goodsDesc.find(item => item.id === data.id)!
+      const result = getData('vShop-client-store')
+      const inventory = result.home.goodsList.find((item: cartGoodsType) => item.id === data.id).stock_quantity
+      data.maxInventory = inventory
+
       if (current) {
-        console.log(current.cou, data.cou)
+        // 若是已存在的商品本身的数量大于最大数量那么就重置为最大数量
+        if (current.cou >= inventory) {
+          current.cou = inventory
+          console.log(current.cou)
+          return
+        }
         current.cou += data.cou
+        current.maxInventory = inventory
         return
       }
       state.cart.goodsId.push(data.id)
       state.cart.goodsDesc.push(data)
     },
     // 清空购物车
-    // clearCart(state): void {
-    //   state.cart.goodsId = []
-    //   state.cart.goodsDesc = []
-    // },
-
+    clearCart(state): void {
+      state.cart.goodsId = []
+      state.cart.goodsDesc = []
+    },
     // 商品全选
     allSelected(state, status: boolean): void {
       state.cart.goodsDesc.forEach(item => (item.done = status))

@@ -11,15 +11,38 @@
         <div class="user_img">
           <img :src="userInfo?.avatar" alt="" />
         </div>
-        <p class="login" @click="login">{{ userInfo?.userName }}</p>
+        <p class="login" @click="login">{{ changeUserInfo }}</p>
       </div>
-      <div class="logout" @click="logout">退出</div>
+      <div class="operator">
+        <button class="editor" @click="edit">编辑</button>
+        <button class="logout" @click="logout">退出</button>
+      </div>
     </div>
+    <!-- 编辑用户信息表单 -->
+    <van-overlay :show="show" @click="show = false">
+      <div class="wrapper" @click.stop>
+        <van-form @submit="onSubmit">
+          <van-cell-group inset>
+            <van-field
+              ref="input"
+              v-model="changeUserInfo"
+              name="用户名"
+              label="用户名"
+              placeholder="用户名"
+              :rules="[{ required: true, message: '请填写用户名' }]"
+            />
+          </van-cell-group>
+          <div style="margin: 16px">
+            <van-button round block type="primary" native-type="submit"> 提交 </van-button>
+          </div>
+        </van-form>
+      </div>
+    </van-overlay>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, Ref } from 'vue'
+import { computed, ref, Ref, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { key } from '@/store'
@@ -28,16 +51,24 @@ import { Toast } from 'vant'
 
 const store = useStore(key)
 const router = useRouter()
+
 const userInfo: Ref<null | userInfoType> = ref(null)
 const isLogin = computed(() => store.state.personal?.isLogin)
 const image = require('@/assets/images/avatar_load.jpg')
+// 用户名称修改
+const changeUserInfo = ref(store.state.personal?.userInfo.data.userName)
+const input: Ref<undefined | HTMLInputElement> = ref()
+// 用户控制遮罩层显示
+const show = ref(false)
 if (isLogin.value) {
   const { data } = JSON.parse(localStorage.getItem('userInfo')!) as { data: userInfoType }
   userInfo.value = data
 }
+// 跳转登录页面
 const login = (): void => {
   router.push('/login')
 }
+// 退出登录
 const logout = (): void => {
   new Promise(resolve => {
     Toast.loading({
@@ -52,6 +83,16 @@ const logout = (): void => {
     Toast.clear()
     Toast.success(config)
   })
+}
+// 编辑
+const edit = (): void => {
+  show.value = true
+  nextTick(() => input.value?.focus())
+}
+// 提交修改用户信息
+const onSubmit = (): void => {
+  store.commit('personal/changeUserName', changeUserInfo.value)
+  show.value = false
 }
 </script>
 
@@ -107,15 +148,35 @@ const logout = (): void => {
         color: $color_white;
       }
     }
-    .logout {
-      margin-right: 15px;
-      font-size: 28px;
-      color: $color_white;
-      padding: 10px 15px;
-      background: $color_theme;
-      border-radius: 10px;
-      border: $color_h solid 1px;
+    .operator {
+      display: flex;
+      .logout {
+        margin-right: 15px;
+        font-size: 28px;
+        color: $color_white;
+        padding: 10px 15px;
+        background: #e74c3c;
+        border-radius: 10px;
+        border: $color_h solid 1px;
+      }
+      .editor {
+        margin-right: 15px;
+        font-size: 28px;
+        color: $color_white;
+        padding: 10px 15px;
+        background: $color_theme;
+        border-radius: 10px;
+        border: $color_h solid 1px;
+      }
     }
   }
+}
+.wrapper {
+  width: 100%;
+  margin: 0 auto;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 </style>

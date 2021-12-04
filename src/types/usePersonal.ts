@@ -3,8 +3,12 @@ export type userType = {
   username: string
   password: string
   orders: [cartGoodsType[]]
-  data: userInfoType[]
+  data: userInfoType
   address: addressType[]
+}
+export type formUserType = {
+  username: string
+  password: string
 }
 
 export type userInfoType = {
