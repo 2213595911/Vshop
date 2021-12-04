@@ -23,6 +23,7 @@ const Cart = () => import('@/views/cart/index.vue')
 
 // 个人中心
 const Personal = () => import('@/views/personal/index.vue')
+const PersonalBase = () => import('@/views/personal/Base.vue')
 // 登录组件
 const Login = () => import('@/views/personal/Login.vue')
 // 帮助等组件
@@ -46,27 +47,42 @@ const routes: Array<RouteRecordRaw> = [
         meta: { level: 2, title: '图片分享列表' },
         component: Images,
         children: [
-          { path: ':id', component: ImageList },
+          { path: ':id', meta: { level: 2, title: '图片分享列表' }, component: ImageList },
           { path: '', meta: { level: 3, title: '图片详情' }, name: 'imgDesc', component: ImgDesc },
         ],
       },
       { path: 'goods', meta: { level: 2, title: '商品列表' }, component: Goods },
-      { path: 'goods/:id', name: 'goodsDesc', meta: { level: 3, title: '商品详情页' }, component: GoodsDesc },
+      { path: 'goods/:id', meta: { level: 3, title: '商品详情页' }, name: 'goodsDesc', component: GoodsDesc },
     ],
   },
   { path: '/category', meta: { level: 1, title: '分类' }, component: Category },
   { path: '/cart', meta: { level: 1, title: '购物车' }, component: Cart },
-  { path: '/personal', name: 'personal', meta: { level: 1, title: '我的' }, component: Personal },
-  { path: '/login', component: Login, meta: { level: 3, title: '登录' } },
-  { path: '/personal/:title', component: Other },
-  { path: '/personal/HelpItem', name: 'HelpItem', component: HelpItem },
-  { path: '/personal/addAddres', meta: { level: 3, title: '新增收货地址' }, component: addAddress },
-  { path: '/pay', meta: { title: '支付中心' }, component: Pay },
+  {
+    path: '/personal',
+    name: 'personal',
+    redirect: '/personal/',
+    meta: { level: 1, title: '我的' },
+    component: Personal,
+    children: [
+      { path: '', component: PersonalBase },
+      { path: '/login', component: Login, meta: { level: 3, title: '登录' } },
+      { path: ':title', meta: { level: 3 }, component: Other },
+      { path: 'HelpItem', meta: { level: 3, title: '帮助详情' }, name: 'HelpItem', component: HelpItem },
+      { path: 'addAddres', meta: { level: 3, title: '新增收货地址' }, component: addAddress },
+      { path: '/pay', meta: { title: '支付中心', level: 3 }, component: Pay },
+    ],
+  },
 ]
 
 const router = createRouter({
   history: createWebHashHistory(),
   routes,
+})
+
+router.beforeEach(to => {
+  if (to.meta.title) {
+    document.title = to.query.title ? (to.query.title as string) : (to.meta.title as string)
+  }
 })
 
 export default router

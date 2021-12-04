@@ -32,4 +32,5 @@ export type addressType = {
   mobile: string
   address: string
   result: string
+  isDefault?: boolean
 }

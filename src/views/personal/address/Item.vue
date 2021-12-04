@@ -7,23 +7,52 @@
       </div>
       <p class="address">{{ address }}</p>
     </div>
-    <div>
+    <div class="operator">
+      <a href="javascript:;" class="default" v-if="item?.isDefault">默认地址</a>
+      <a href="javascript:;" class="setDefault" v-else @click="changeDefaultAddress(item?.id)">设为默认地址</a>
       <a href="javascript:;" @click="editor">编辑</a>
       <a href="javascript:;" @click="del(item?.id)">删除</a>
     </div>
     <!-- 修改地址遮罩层 -->
-    <van-overlay :show="show" @click="show = false" class="changeAddress">
-      <van-form @submit="onSubmit" @failed="failed" @click.stop>
+    <van-overlay :show="show" @click="hideMask" class="changeAddress">
+      <van-form @submit="onSubmit" @failed="failed" @click.stop ref="target">
         <van-cell-group inset>
-          <van-field v-model="form.name" name="收货人" label="收货人" placeholder="请输入收货人姓名" />
-          <van-field v-model="form.mobile" name="联系方式" label="联系方式" placeholder="请输入联系方式" :rules="[{ validator: validatorMobile }]" />
+          <van-field
+            v-model="form.name"
+            name="收货人"
+            label="收货人"
+            placeholder="请输入收货人姓名"
+            :rules="[{ required: true, message: '请输入收货人姓名' }]"
+          />
+          <van-field
+            v-model="form.mobile"
+            name="联系方式"
+            label="联系方式"
+            placeholder="请输入联系方式"
+            :rules="[{ validator: validatorMobile, required: true, message: '请输入收货人联系方式' }]"
+          />
 
-          <van-field v-model="form.result" is-link readonly name="area" label="地区选择" placeholder="点击选择省市区" @click="showArea = true" />
+          <van-field
+            v-model="form.result"
+            is-link
+            readonly
+            name="area"
+            label="地区选择"
+            placeholder="点击选择省市区"
+            @click="showArea = true"
+            :rules="[{ required: true, message: '请选择省市区' }]"
+          />
           <van-popup v-model:show="showArea" position="bottom">
             <van-area :area-list="areaList" @confirm="onConfirm" @cancel="showArea = false" />
           </van-popup>
 
-          <van-field v-model="form.address" name="详细地址" label="详细地址" placeholder="请输入详细地址" />
+          <van-field
+            v-model="form.address"
+            name="详细地址"
+            label="详细地址"
+            placeholder="请输入详细地址"
+            :rules="[{ required: true, message: '请输入详细地址' }]"
+          />
         </van-cell-group>
         <div style="margin: 16px">
           <van-button round block type="primary" native-type="submit"> 提交 </van-button>
@@ -48,6 +77,7 @@ const props = defineProps({
   },
 })
 const address = computed(() => `${props.item?.result.split('/').join(' ')} ${props.item?.address}`)
+const target: any = ref()
 
 const show = ref(false)
 // 修改地址信息表单
@@ -57,7 +87,6 @@ const form: Ref<addressType> = ref({
   result: '',
   address: '',
 })
-
 const showArea = ref(false)
 const onConfirm = (value: any) => {
   showArea.value = false
@@ -80,14 +109,23 @@ const onSubmit = (): void => {
 const failed = (): void => {
   Toast.fail('请按照规则填写好提交!')
 }
+// 隐藏遮罩层
+const hideMask = (): void => {
+  show.value = false
+  console.log(props.item)
+}
 // 编辑地址
 const editor = (): void => {
   show.value = true
-  form.value = props.item!
+  form.value = { ...props.item! }
 }
 // 删除地址
 const del = (id: string | undefined): void => {
   store.commit('personal/delAddress', id)
+}
+// 修改默认地址
+const changeDefaultAddress = (id: string | undefined): void => {
+  store.commit('personal/changeDefaultAddress', id)
 }
 </script>
 
@@ -119,9 +157,11 @@ const del = (id: string | undefined): void => {
       font-size: 25px;
     }
   }
-  div {
+  div.operator {
+    width: 200px;
     display: flex;
     flex-direction: column;
+    text-align: right;
     a {
       font-size: 28px;
       color: #2f3640;
@@ -129,6 +169,9 @@ const del = (id: string | undefined): void => {
       &:last-of-type {
         color: #e84118;
       }
+    }
+    .default {
+      color: #9b59b6;
     }
   }
   .changeAddress {

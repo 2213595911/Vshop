@@ -52,12 +52,18 @@ export default {
       setData('userInfo', state.userInfo)
     },
     // 地址业务
+
     // 添加地址
     addAddress(state, arg: addressType): void {
       const valid = state.userInfo.address.findIndex(item => item.id === arg.id)
+      arg.isDefault = false
       if (valid !== -1) {
+        // 如果已经存在并且是第一位那么需要修改为true
         state.userInfo.address[valid] = arg
+        if (valid === 0) state.userInfo.address[valid].isDefault = true
       } else {
+        // 判断如果地址数据中没有值那么证明将要添加的是第一个位所以是默认
+        if (!state.userInfo.address.length) arg.isDefault = true
         state.userInfo.address.push(arg)
         setData('userInfo', state.userInfo)
       }
@@ -72,6 +78,24 @@ export default {
     delAddress(state, id: string): void {
       const index = state.userInfo.address.findIndex(item => item.id === id)
       state.userInfo.address.splice(index, 1)
+      // 删除之后若只剩最后一个那么将最后一个设为默认地址
+      if (state.userInfo.address.length === 1) state.userInfo.address[0].isDefault = true
+      setData('userInfo', state.userInfo)
+    },
+    // 修改默认地址
+    changeDefaultAddress(state, id: string) {
+      const index = state.userInfo.address.findIndex(item => item.id === id)
+      state.userInfo.address.forEach(item => {
+        item.isDefault = false
+        // 查询要设置默认的地址
+        if (item.id === id) {
+          // 将默认地址排到第一个位置
+          item.isDefault = true
+          const temp = item
+          state.userInfo.address.splice(index, 1)
+          state.userInfo.address.unshift(temp)
+        }
+      })
       setData('userInfo', state.userInfo)
     },
     // 修改用户名称

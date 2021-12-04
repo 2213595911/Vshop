@@ -97,3 +97,11 @@ p {
 .van-grid-item__icon {
   font-size: 100px !important;
 }
+
+// 分类
+
+@media all and (max-width: 750px) {
+  .van-tree-select__nav {
+    padding-bottom: 30px !important;
+  }
+}

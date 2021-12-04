@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <router-view></router-view>
-  </div>
+  <div>留言专区</div>
 </template>
 
 <script setup lang="ts"></script>

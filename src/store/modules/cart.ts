@@ -49,7 +49,7 @@ export default {
 
       if (current) {
         // 若是已存在的商品本身的数量大于最大数量那么就重置为最大数量
-        if (current.cou >= inventory) {
+        if (current.cou + data.cou >= inventory) {
           current.cou = inventory
           console.log(current.cou)
           return
@@ -104,6 +104,7 @@ export default {
     },
     // 全选按钮状态
     allChecked(state): boolean {
+      if (!state.cart.goodsDesc.length) return false
       return state.cart.goodsDesc.every(item => item.done)
     },
   },
