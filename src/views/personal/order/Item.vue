@@ -1,35 +1,39 @@
 <template>
-  <h2 class="orderNum">订单号:{{ 48656164657229 + '2021' + props.index }}</h2>
-  <van-swipe-cell v-for="goods in item" :key="goods.id">
-    <van-card
-      :num="goods.cou"
-      :price="goods.sell_price"
-      :title="goods.title"
-      class="goods-card"
-      :thumb="goods.thumb_path"
-      @click-thumb="$router.push(`/goods/${goods.id}`)"
-    />
-    <template #right>
-      <van-button square text="删除" type="danger" class="delete-button" @click="del(goods.id)" />
-    </template>
-  </van-swipe-cell>
-  <div class="payStatus">
-    <span class="pay" v-if="payStatus">已支付</span>
-    <span class="depay" v-else>待支付</span>
-  </div>
-  <div class="pay">
-    <span
-      >总价格:<strong class="count">￥{{ count }}</strong></span
-    >
-    <van-button size="small" type="primary" @click="$router.push('/pay')">立即支付</van-button>
-  </div>
-  <div class="deleteOrder">
-    <a href="javascript:;" @click="deleteOrder">删除订单</a>
+  <div class="item">
+    <h2 class="orderNum">订单号:{{ 48656164657229 + '2021' + props.index }}</h2>
+    <van-swipe-cell>
+      <van-card
+        v-for="goods in item"
+        :key="goods.id"
+        :num="goods.cou"
+        :price="goods.sell_price"
+        :title="goods.title"
+        class="goods-card"
+        :thumb="goods.thumb_path"
+        @click-thumb="$router.push(`/goods/${goods.id}`)"
+      />
+      <template #right>
+        <van-button square text="删除" type="danger" class="delete-button" @click="del(goods.id)" />
+      </template>
+    </van-swipe-cell>
+    <div class="payStatus">
+      <span class="payGoods" v-if="payStatus">已支付</span>
+      <span class="depay" v-else>待支付</span>
+    </div>
+    <div class="pay">
+      <span
+        >总价格:<strong class="count">￥{{ count }}</strong></span
+      >
+      <van-button size="small" type="primary" @click="pay">立即支付</van-button>
+    </div>
+    <div class="deleteOrder">
+      <a href="javascript:;" @click="deleteOrder">删除订单</a>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { defineProps, PropType, computed } from 'vue'
+import { defineProps, PropType, computed, ref } from 'vue'
 import type { cartGoodsType } from '@/types/useCart'
 import { Toast, Dialog } from 'vant'
 import { useStore } from 'vuex'
@@ -72,6 +76,26 @@ const del = (id: number): void => {
 
   store.commit('personal/del', [props.index, id])
 }
+// 支付
+const pay = (): void => {
+  let flag: any = ref()
+  new Promise(resolve => {
+    if (payStatus.value) {
+      return
+    }
+    flag = Toast.loading({
+      message: '支付中请稍等...',
+      forbidClick: true,
+    })
+    setTimeout(() => {
+      resolve(props.index)
+    }, 1000)
+  }).then((index: any) => {
+    flag.clear()
+    store.commit('personal/pay', index)
+    Toast.success('支付成功！')
+  })
+}
 </script>
 
 <style scoped lang="scss">
@@ -84,7 +108,7 @@ const del = (id: number): void => {
   font-size: 30px;
   text-align: right;
   margin-right: 15px;
-  .pay {
+  .payGoods {
     color: #2ecc71;
   }
   .depay {

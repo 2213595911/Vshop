@@ -51,6 +51,13 @@ export default {
       }
       setData('userInfo', state.userInfo)
     },
+    // 支付
+    pay(state, index: number) {
+      state.userInfo.orders[index].forEach(item => (item.pay = true))
+      console.log(state.userInfo.orders[index])
+
+      setData('userInfo', state.userInfo)
+    },
     // 地址业务
 
     // 添加地址
@@ -105,4 +112,5 @@ export default {
     },
   },
   actions: {},
+  getters: {},
 } as Module<PersonalState, State>

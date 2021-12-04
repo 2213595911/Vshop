@@ -1,3 +1,4 @@
+import { h } from '@vue/runtime-core'
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 
 // 首页
@@ -69,7 +70,6 @@ const routes: Array<RouteRecordRaw> = [
       { path: ':title', meta: { level: 3 }, component: Other },
       { path: 'HelpItem', meta: { level: 3, title: '帮助详情' }, name: 'HelpItem', component: HelpItem },
       { path: 'addAddres', meta: { level: 3, title: '新增收货地址' }, component: addAddress },
-      { path: '/pay', meta: { title: '支付中心', level: 3 }, component: Pay },
     ],
   },
 ]
