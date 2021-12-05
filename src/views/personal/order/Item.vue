@@ -38,9 +38,11 @@ import type { cartGoodsType } from '@/types/useCart'
 import { Toast, Dialog } from 'vant'
 import { useStore } from 'vuex'
 import { key } from '@/store'
+import { useRouter } from 'vue-router'
 import { ComponentInstance } from 'vant/lib/utils'
 
 const store = useStore(key)
+const router = useRouter()
 const props = defineProps({
   item: {
     type: Object as PropType<cartGoodsType[]>,
@@ -81,6 +83,11 @@ const pay = (): void => {
   let flag: undefined | ComponentInstance
   new Promise(resolve => {
     if (payStatus.value) {
+      return
+    }
+    if (!store.state.personal?.userInfo.address.length) {
+      router.push('/personal/address?title=我的地址')
+      Toast.fail('请选择地址！')
       return
     }
     flag = Toast.loading({

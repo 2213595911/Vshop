@@ -35,7 +35,7 @@ export default {
       state.images = payload
     },
     // 设置商品数据
-    setGoods(state, payload: goodsType[]) {
+    setGoods(state, payload: goodsType[]): void {
       state.goodsList = payload
     },
   },

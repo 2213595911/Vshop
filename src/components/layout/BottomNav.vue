@@ -8,12 +8,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, ComputedRef } from 'vue'
 import { useStore } from 'vuex'
 import { key } from '@/store'
 
 const store = useStore(key)
-const count = computed(() => store.getters['cart/allCount'])
+const count: ComputedRef<number> = computed(() => store.getters['cart/allCount'])
 const active = ref(0)
 watch(active, v => {
   console.log(v)

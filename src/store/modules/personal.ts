@@ -52,7 +52,7 @@ export default {
       setData('userInfo', state.userInfo)
     },
     // 支付
-    pay(state, index: number) {
+    pay(state, index: number): void {
       state.userInfo.orders[index].forEach(item => (item.pay = true))
       console.log(state.userInfo.orders[index])
 
@@ -90,7 +90,7 @@ export default {
       setData('userInfo', state.userInfo)
     },
     // 修改默认地址
-    changeDefaultAddress(state, id: string) {
+    changeDefaultAddress(state, id: string): void {
       const index = state.userInfo.address.findIndex(item => item.id === id)
       state.userInfo.address.forEach(item => {
         item.isDefault = false

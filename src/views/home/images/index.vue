@@ -23,9 +23,9 @@ import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import { key } from '@/store/index'
 
-const active = ref(0)
 const route = useRoute()
 const store = useStore(key)
+const active = ref(0)
 const data = await getImgCategory()
 
 const imgCate: ComputedRef<imgCateType[]> = computed(() => {

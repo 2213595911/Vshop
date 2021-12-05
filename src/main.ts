@@ -1,10 +1,13 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import router from './router'
-import store, { key } from './store'
+import router from '@/router'
+import store, { key } from '@/store'
+
 import 'normalize.css'
 import '@/assets/styles/global.scss'
 import 'lib-flexible'
+
+const app = createApp(App)
 import {
   Tabs,
   Cell,
@@ -39,10 +42,7 @@ import {
 } from 'vant'
 import 'vant/lib/index.css'
 
-const app = createApp(App)
 app
-  .use(router)
-  .use(store, key)
   .use(Button)
   .use(NavBar)
   .use(Tabbar)
@@ -73,4 +73,6 @@ app
   .use(Popup)
   .use(Overlay)
   .use(Uploader)
-app.mount('#app')
+  .use(router)
+  .use(store, key)
+  .mount('#app')

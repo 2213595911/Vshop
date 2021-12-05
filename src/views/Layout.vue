@@ -23,7 +23,7 @@ const store = useStore(key)
 // 监视路径变化修改头部通栏
 watch(
   () => route.path,
-  v => {
+  (v: string) => {
     const flag = v === '/' ? false : true
     store.commit('home/changeState', flag)
     store.commit('home/changeTitle', route.meta.title)
