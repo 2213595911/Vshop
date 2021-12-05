@@ -122,7 +122,7 @@ watch(
 }
 .order_list {
   padding-bottom: 200px;
-  height: 100vh;
+  height: 100%;
 
   .list {
     background-color: $color_white;
