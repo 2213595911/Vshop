@@ -32,4 +32,22 @@ const nav = reactive([
   },
 ])
 
-export { nav }
+// 格式化日期
+function addZero(num: string | number): string {
+  if (parseInt(num as string) < 10) {
+    num = '0' + num
+  }
+  return num as string
+}
+function getMyDate(date: string | number): string {
+  let oDate = new Date(date),
+    oYear = oDate.getFullYear(),
+    oMonth = oDate.getMonth() + 1,
+    oDay = oDate.getDate(),
+    oHour = oDate.getHours(),
+    oMin = oDate.getMinutes(),
+    oSen = oDate.getSeconds(),
+    oTime = `${oYear}-${addZero(oMonth)}-${addZero(oDay)} ${addZero(oHour)}:${addZero(oMin)}:${addZero(oSen)}`
+  return oTime
+}
+export { nav, getMyDate }

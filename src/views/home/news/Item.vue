@@ -9,7 +9,7 @@
       <div class="desc">
         <h3 class="title ellipsis">{{ news.title }}</h3>
         <div class="comment">
-          <p class="date">发布时间:{{ news.add_time }}</p>
+          <p class="date">发布时间:{{ getMyDate(new Date(news.add_time).getTime()) }}</p>
           <span class="click">点击 : {{ news.click }}</span>
         </div>
       </div>
@@ -22,6 +22,7 @@ import { defineProps, PropType } from 'vue'
 import type { newsType } from '@/types/useHome'
 import { useStore } from 'vuex'
 import { key } from '@/store'
+import { getMyDate } from '@/utils/useHome'
 
 const store = useStore(key)
 defineProps({

@@ -1,7 +1,7 @@
 <template>
   <div class="desc" v-if="desc.id">
     <h2 class="title">{{ desc.title }}</h2>
-    <span class="time">{{ desc.add_time }}</span>
+    <span class="time">{{ formatDate(desc.add_time) }}</span>
     <div class="content">
       <p v-html="desc.content"></p>
     </div>
@@ -11,13 +11,17 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
 import { computed, ComputedRef } from 'vue'
+import { getMyDate } from '@/utils/useHome'
 import { getNewsDesc } from '@/api/useHome'
 import type { newsType } from '@/types/useHome'
 const route = useRoute()
 const id = computed(() => route.params.id)
 const result = await getNewsDesc(id.value)
 const desc: ComputedRef<newsType> = computed(() => result.message[0])
-console.log(desc)
+// 格式化时间
+const formatDate = (time: string): string => {
+  return getMyDate(new Date(time).getTime())
+}
 </script>
 
 <style scoped lang="scss">

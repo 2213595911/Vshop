@@ -4,13 +4,14 @@
     <img v-lazy="imgDesc.img_url" v-if="imgDesc.img_url" :src="imgDesc.img_url" alt="" />
     <img v-else src="https://www.escook.cn/vuebase/pics/7.png" alt="" />
     <p class="desc_text" v-html="imgDesc.content"></p>
-    <div class="add_time">{{ imgDesc.add_time }}</div>
+    <div class="add_time">{{ getMyDate(new Date(imgDesc.add_time).getTime()) }}</div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { watch, ref, Ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { getMyDate } from '@/utils/useHome'
 import { getImgDesc } from '@/api/useHome'
 import { newsType } from '@/types/useHome'
 const route = useRoute()

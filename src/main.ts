@@ -8,6 +8,7 @@ import '@/assets/styles/global.scss'
 import 'lib-flexible'
 
 const app = createApp(App)
+// vant组件库
 import {
   Tabs,
   Cell,
@@ -40,6 +41,7 @@ import {
   Overlay,
   Uploader,
 } from 'vant'
+// vant 组件库样式
 import 'vant/lib/index.css'
 
 app
