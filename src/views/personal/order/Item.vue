@@ -1,10 +1,8 @@
 <template>
   <div class="item">
     <h2 class="orderNum">订单号:{{ 48656164657229 + '2021' + props.index }}</h2>
-    <van-swipe-cell>
+    <van-swipe-cell v-for="goods in item" :key="goods.id">
       <van-card
-        v-for="goods in item"
-        :key="goods.id"
         :num="goods.cou"
         :price="goods.sell_price"
         :title="goods.title"
@@ -76,6 +74,7 @@ const deleteOrder = (): void => {
 // 删除订单中单独的商品
 const del = (id: number): void => {
   console.log(id)
+
   store.commit('personal/del', [props.index, id])
 }
 // 支付

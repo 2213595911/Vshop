@@ -65,6 +65,8 @@ const onSubmit = () => {
         name: 'personal',
       })
       Toast.success('欢迎回来!')
+    } else {
+      Toast.fail('密码或用户名不正确，请重新输入!')
     }
   })
 }

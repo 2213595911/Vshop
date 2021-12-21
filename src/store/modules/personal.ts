@@ -31,6 +31,8 @@ export default {
     },
     // 删除指定订单
     deleteOrder(state, index: number): void {
+      console.log(1)
+
       state.userInfo.orders.splice(index, 1)
       setData('userInfo', state.userInfo)
     },
